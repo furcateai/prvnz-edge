@@ -1,0 +1,8 @@
+prvnz-edge
+Copyright 2026 Furcate Contributors
+
+This product includes software developed at Furcate (https://furcate.xyz).
+
+PRVNZ Digital Product Passport spec and server-side tooling live in the
+PRVNZ project's own organisation; this crate is only the Pi-class edge
+participation runtime contributed by the Furcate project.

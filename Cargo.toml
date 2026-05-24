@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: Apache-2.0
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/prvnz-edge-core",
+    "crates/prvnz-edge-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "Apache-2.0"
+authors = ["Furcate Contributors"]
+homepage = "https://github.com/furcateai/prvnz-edge"
+repository = "https://github.com/furcateai/prvnz-edge"
+readme = "README.md"
+description = "Tier 2 OSS Pi-class PRVNZ Digital Product Passport runtime — CEN/CLC JTC 24 + GS1 EPCIS 2.0 JSON-LD, SD-JWT selective disclosure."
+keywords = ["dpp", "epcis", "edge", "sd-jwt", "passport"]
+categories = ["data-structures", "encoding", "command-line-utilities"]
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[workspace.lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+
+[workspace.dependencies]
+# Tier 1 contract — pinned to a major version
+furcate-inference-core = { path = "../furcate-inference/crates/furcate-inference-core" }
+
+# Tier 2 siblings — PRVNZ-edge composes these. minima-attest is pulled in with
+# `features = ["furcate"]` so we get `MinimaAttester` + `MinimaReceiptSink`.
+minima-attest = { path = "../minima-attest", features = ["furcate"] }
+tenzro-edge-core = { path = "../tenzro-edge/crates/tenzro-edge-core" }
+
+# Async + streams
+async-trait = "0.1"
+async-stream = "0.3"
+futures = "0.3"
+tokio = { version = "1", default-features = false, features = ["rt", "macros", "sync", "time", "fs"] }
+
+# Standards / crypto
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+tracing = "0.1"
+chrono = { version = "0.4", default-features = false, features = ["std", "serde", "clock"] }
+blake3 = "1"
+sha2 = "0.10"
+base64 = "0.22"
+rand = "0.8"
+
+# File-watch TriggerSource backend. notify is the de-facto cross-platform
+# filesystem-event crate; 8.2 is the latest stable line (9.x is still RC).
+notify = "8"
+
+# CLI
+clap = { version = "4", features = ["derive"] }

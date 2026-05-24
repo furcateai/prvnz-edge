@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "prvnz-edge-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+readme.workspace = true
+description = "`prvnz-edge` CLI"
+
+[[bin]]
+name = "prvnz-edge"
+path = "src/main.rs"
+
+[dependencies]
+prvnz-edge-core = { path = "../prvnz-edge-core" }
+tokio.workspace = true
+clap.workspace = true
+tracing.workspace = true
+
+[lints]
+workspace = true
