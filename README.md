@@ -20,28 +20,27 @@ prvnz-edge replay                       # flush offline-buffered passports
 
 ```
 github.com/furcateai/
-├── furcate-protocol                   (wire-format specs + schemas)
-├── furcate-platform                   proprietary (consumer of the OSS bundle)
-├── furcate-inference                  (Tier 1 — edge inference kernel)
-├── furcate-mesh                       (Tier 1 — edge mesh kernel)
-├── minima-attest                      (Tier 2 — Minima participation)
-├── tenzro-edge                        (Tier 2 — Tenzro participation)
-├── prvnz-edge        ← you are here   (Tier 2 — PRVNZ DPP participation)
-├── furcate-pi-hat                     (Tier 2 — Pi 5 HAT hardware support)
-└── furcate-pi-minima                  (Tier 2 — Pi-class Minima operator)
+├── furcate-protocol                   wire-format specs + schemas
+├── furcate-inference                  edge inference kernel
+├── furcate-mesh                       LAN peer fabric for edge nodes
+├── minima-attest                      Rust client for anchoring hashes on a local Minima node
+├── tenzro-edge                        runtime for participating in the Tenzro Network
+├── prvnz-edge        ← you are here   runtime for issuing PRVNZ Digital Product Passports
+├── furcate-pi-hat                     Pi 5 HAT hardware support (GPIO, 1-Wire, OPC UA triggers)
+└── furcate-pi-minima                  supervisor for running a Minima full node on a Pi
 ```
 
-`prvnz-edge` is the **first documented vertical application** of the Furcate
-OSS bundle. It composes Tier-2 sibling repos (`minima-attest` + `tenzro-edge`)
+`prvnz-edge` is the **first documented vertical application** built on this set
+of crates. It composes the participation crates (`minima-attest` + `tenzro-edge`)
 rather than implementing low-level network participation itself.
 
 ## The hard rule
 
-**Zero PRVNZ-specific knowledge ever flows back into Tier 1.** The kernel
-(`furcate-inference-core`, `furcate-mesh-core`) doesn't know what a DPP is,
-doesn't know what GS1 is, never will.
+**Zero PRVNZ-specific knowledge ever flows back into the kernel.** The
+inference and mesh kernels (`furcate-inference-core`, `furcate-mesh-core`)
+don't know what a DPP is, don't know what GS1 is, never will.
 
-`prvnz-edge` implements Tier-1 traits that *happen to be specialised* for DPP:
+`prvnz-edge` implements kernel traits that *happen to be specialised* for DPP:
 
 | Trait | Where | PRVNZ specialisation |
 |---|---|---|
@@ -56,7 +55,7 @@ That's it. Generic traits, DPP-specialised impls. The kernel stays vertical-agno
 
 ```
 prvnz-edge
-  ├── implements Tier-1 traits (SchemaProfile, TriggerSource, PolicyRouter,
+  ├── implements kernel traits (SchemaProfile, TriggerSource, PolicyRouter,
   │   SelectiveDisclosure)
   ├── depends on minima-attest  (on-chain anchoring of DPP receipts)
   └── depends on tenzro-edge    (multi-VM settlement, agent network for
@@ -140,12 +139,12 @@ crates/
 ## Status
 
 - Version: **0.1.0** (scaffold)
-- Depends on `minima-attest` and `tenzro-edge` (both Tier 2)
+- Depends on `minima-attest` and `tenzro-edge` (both participation crates)
 - Real wiring lands in v0.1.x
 
 ## Versioning
 
-- Tier 2 crates release **independently** of Tier 1
+- Releases **independently** of the `furcate-inference` kernel
 - Pins `furcate-inference-core` to a specific major version
 - Pins `minima-attest` and `tenzro-edge` to specific major versions
 
@@ -154,12 +153,12 @@ MSRV, 1.0 timing, and deprecation windows are roadmap decisions and are not set 
 ## Sibling repos
 
 - [`furcate-protocol`](https://github.com/furcateai/furcate-protocol) — wire-format specs + schemas (DPP receipt shape extends `StepReceipt`)
-- [`furcate-inference`](https://github.com/furcateai/furcate-inference) — Tier 1 (provides the trait surface this implements)
-- [`furcate-mesh`](https://github.com/furcateai/furcate-mesh) — Tier 1
-- [`minima-attest`](https://github.com/furcateai/minima-attest) — Tier 2 (PRVNZ-edge depends on this for on-chain anchoring)
-- [`tenzro-edge`](https://github.com/furcateai/tenzro-edge) — Tier 2 (PRVNZ-edge depends on this for multi-VM settlement + agent network)
-- [`furcate-pi-hat`](https://github.com/furcateai/furcate-pi-hat) — Tier 2, Pi 5 HAT hardware support
-- [`furcate-pi-minima`](https://github.com/furcateai/furcate-pi-minima) — Tier 2, Pi-class Minima operator (run a local Minima node for `minima-attest`)
+- [`furcate-inference`](https://github.com/furcateai/furcate-inference) — edge inference kernel (provides the trait surface this implements)
+- [`furcate-mesh`](https://github.com/furcateai/furcate-mesh) — LAN peer fabric for edge nodes
+- [`minima-attest`](https://github.com/furcateai/minima-attest) — Rust client for anchoring hashes on a local Minima node (PRVNZ-edge depends on this for on-chain anchoring)
+- [`tenzro-edge`](https://github.com/furcateai/tenzro-edge) — runtime for participating in the Tenzro Network (PRVNZ-edge depends on this for multi-VM settlement + agent network)
+- [`furcate-pi-hat`](https://github.com/furcateai/furcate-pi-hat) — Pi 5 HAT hardware support
+- [`furcate-pi-minima`](https://github.com/furcateai/furcate-pi-minima) — supervisor for running a Minima full node on a Pi (run a local node for `minima-attest`)
 
 ## License
 

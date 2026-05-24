@@ -16,7 +16,7 @@ authors = ["Furcate Contributors"]
 homepage = "https://github.com/furcateai/prvnz-edge"
 repository = "https://github.com/furcateai/prvnz-edge"
 readme = "README.md"
-description = "Tier 2 OSS Pi-class PRVNZ Digital Product Passport runtime — CEN/CLC JTC 24 + GS1 EPCIS 2.0 JSON-LD, SD-JWT selective disclosure."
+description = "A Pi-class runtime for issuing and verifying PRVNZ Digital Product Passports — CEN/CLC JTC 24 + GS1 EPCIS 2.0 JSON-LD, SD-JWT selective disclosure."
 keywords = ["dpp", "epcis", "edge", "sd-jwt", "passport"]
 categories = ["data-structures", "encoding", "command-line-utilities"]
 
