@@ -14,26 +14,6 @@ prvnz-edge verify  --passport <vc-jws>
 prvnz-edge replay                       # flush offline-buffered passports
 ```
 
----
-
-## Where it sits
-
-```
-github.com/furcateai/
-├── furcate-protocol                   wire-format specs + schemas
-├── furcate-inference                  edge inference kernel
-├── furcate-mesh                       LAN peer fabric for edge nodes
-├── minima-attest                      Rust client for anchoring hashes on a local Minima node
-├── tenzro-edge                        runtime for participating in the Tenzro Network
-├── prvnz-edge        ← you are here   runtime for issuing PRVNZ Digital Product Passports
-├── furcate-pi-hat                     Pi 5 HAT hardware support (GPIO, 1-Wire, OPC UA triggers)
-└── furcate-pi-minima                  supervisor for running a Minima full node on a Pi
-```
-
-`prvnz-edge` is the **first documented vertical application** built on this set
-of crates. It composes the participation crates (`minima-attest` + `tenzro-edge`)
-rather than implementing low-level network participation itself.
-
 ## The hard rule
 
 **Zero PRVNZ-specific knowledge ever flows back into the kernel.** The
