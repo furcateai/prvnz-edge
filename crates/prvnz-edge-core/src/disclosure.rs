@@ -47,7 +47,7 @@ use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use furcate_inference_core::{
     DisclosedEnvelope, DisclosureError, DisclosureId, DisclosurePolicy, SelectiveDisclosure,
 };
-use rand::RngCore;
+use rand::Rng;
 use serde_json::{Map, Value, json};
 use sha2::{Digest, Sha256};
 
@@ -120,7 +120,7 @@ fn make_disclosure(
     value: &Value,
 ) -> std::result::Result<String, DisclosureError> {
     let mut salt_bytes = [0u8; 16];
-    rand::thread_rng().fill_bytes(&mut salt_bytes);
+    rand::rng().fill_bytes(&mut salt_bytes);
     let salt = b64(&salt_bytes);
     let arr = json!([salt, claim_name, value]);
     let json = serde_json::to_vec(&arr)
